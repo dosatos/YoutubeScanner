@@ -5,14 +5,14 @@ from pydantic import (
     PositiveInt
 )
 
-from utils.misc import RFS3339Time
+from utils import rfs_3339_time
 from youtube_client import YoutubeClient
 
 
 class ScanQuery(BaseModel):
     channel_id: str
     limit: PositiveInt = 1
-    published_after: str = RFS3339Time.yesterday()
+    published_after: str = rfs_3339_time.yesterday()
 
 
 class ChannelPage:
@@ -41,10 +41,15 @@ class ChannelPageGenerator:
     def __next__(self) -> ChannelPage:
         if self._exceeds_limit() or not self._has_next_page_token():
             raise StopIteration
-        self.last_response = self.YOUTUBE.get_single_page(query=self.query, page_token=self._get_next_page_token())
-        video_ids = self._get_video_ids(self.last_response)
-        self.video_count += len(video_ids)
+        response = self.YOUTUBE.get_single_page(query=self.query,
+                                                page_token=self._get_next_page_token())
+        self._update_video_ids(response)
+        self._update_last_response(response)
         return ChannelPage(self.last_response)
+
+    def _update_video_ids(self, response):
+        video_ids = self._get_video_ids(response)
+        self.video_count += len(video_ids)
 
     def _get_video_ids(self, response) -> List[str]:
         page_limit = self.query.limit - self.video_count
@@ -62,9 +67,13 @@ class ChannelPageGenerator:
     def _get_next_page_token(self) -> Optional[str]:
         return self.last_response.get('nextPageToken') if self.last_response else None
 
+    def _update_last_response(self, response):
+        """Used by self._has_next_page_token to check if the next page exists"""
+        self.last_response = response
+
 
 class ScannerApp:
-    def scan(self, query: ScanQuery) -> List[str]:
+    def get_videos(self, query: ScanQuery) -> List[str]:
         generator: ChannelPageGenerator = ChannelPageGenerator(query=query)
         return self._scan_channel(page_generator=generator)
 

@@ -20,7 +20,7 @@ class ChannelPage:
         self.response = response
 
 
-class ChannelPageGenerator:
+class ChannelPageIterator:
     """
     Note:
         looks like there is no need to set the limits,
@@ -72,11 +72,10 @@ class ChannelPageGenerator:
         self.last_response = response
 
 
-class ScannerApp:
-    def get_videos(self, query: ScanQuery) -> List[str]:
-        generator: ChannelPageGenerator = ChannelPageGenerator(query=query)
-        return self._scan_channel(page_generator=generator)
+def get_videos(self, query: ScanQuery) -> List[str]:
+    iterator: ChannelPageIterator = ChannelPageIterator(query=query)
+    return self._scan_channel(page_iterator=iterator)
 
-    @staticmethod
-    def _scan_channel(page_generator: ChannelPageGenerator) -> List[str]:
-        return [page.response for page in page_generator]
+
+def _scan_channel(page_iterator: ChannelPageIterator) -> List[str]:
+    return [page.response for page in page_iterator]

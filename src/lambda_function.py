@@ -3,7 +3,7 @@ import logging
 
 from pydantic import PositiveInt
 
-from app import ScanQuery, ScannerApp
+import scanner
 from utils import rfs_3339_time
 
 
@@ -11,15 +11,14 @@ def lambda_handler(event, context):
     try:
         channel_id: str = event['channel_id']
     except KeyError:
-        return client_failure()
+        return client_failure(event)
 
     try:
-        query: ScanQuery = ScanQuery(
+        query: scanner.ScanQuery = scanner.ScanQuery(
             channel_id=channel_id,
             limit=PositiveInt(10),
             published_after=rfs_3339_time.week_ago()
         )
-        scanner: ScannerApp = ScannerApp()
         results = scanner.get_videos(query=query)
     except Exception as e:
         return server_failure(event, e)
@@ -39,7 +38,7 @@ def client_failure(event):
 
 
 def server_failure(channel_id: str, exception):
-    message: str = f"could not have processed for channel_id: {channel_id}. Trace: {exception.value}"
+    message: str = f"could not have processed for channel_id: {channel_id}. Trace: {exception}"
     logging.error(message)
     return {
         "statusCode": 500,

@@ -72,9 +72,9 @@ class ChannelPageIterator:
         self.last_response = response
 
 
-def get_videos(self, query: ScanQuery) -> List[str]:
+def get_videos(query: ScanQuery) -> List[str]:
     iterator: ChannelPageIterator = ChannelPageIterator(query=query)
-    return self._scan_channel(page_iterator=iterator)
+    return _scan_channel(page_iterator=iterator)
 
 
 def _scan_channel(page_iterator: ChannelPageIterator) -> List[str]:

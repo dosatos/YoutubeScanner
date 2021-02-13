@@ -3,8 +3,8 @@ import logging
 
 from pydantic import PositiveInt
 
-import scanner
-from utils import rfs_3339_time
+from youtubescanner import scanner
+from youtubescanner import utils
 
 
 def lambda_handler(event, context):
@@ -17,7 +17,7 @@ def lambda_handler(event, context):
         query: scanner.ScanQuery = scanner.ScanQuery(
             channel_id=channel_id,
             limit=PositiveInt(10),
-            published_after=rfs_3339_time.week_ago()
+            published_after=utils.rfs_3339_time.week_ago()
         )
         results = scanner.get_videos(query=query)
     except Exception as e:

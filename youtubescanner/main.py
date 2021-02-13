@@ -2,10 +2,10 @@ from pprint import pprint
 
 from pydantic import PositiveInt
 
-import scanner
-from utils import rfs_3339_time
-from utils.youtube import get_channel_id_by_video_id
-from youtube_client import YoutubeClient
+from youtubescanner import scanner
+from youtubescanner.utils import rfs_3339_time
+from youtubescanner.utils.youtube import get_channel_id_by_video_id
+from youtubescanner.youtube_client import YoutubeClient
 
 
 def get_videos(channel_id):

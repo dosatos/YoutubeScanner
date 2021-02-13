@@ -5,8 +5,8 @@ from pydantic import (
     PositiveInt
 )
 
-from utils import rfs_3339_time
-from youtube_client import YoutubeClient
+from youtubescanner.utils import rfs_3339_time
+from youtubescanner.youtube_client import YoutubeClient
 
 
 class ScanQuery(BaseModel):

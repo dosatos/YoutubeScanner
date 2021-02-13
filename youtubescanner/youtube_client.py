@@ -5,7 +5,7 @@ from googleapiclient.discovery import (
 )
 from googleapiclient.errors import HttpError
 
-from settings import LOGGER
+from youtubescanner.settings import LOGGER
 
 
 class YoutubeClient:

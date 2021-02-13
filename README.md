@@ -5,6 +5,11 @@ export google_api_key=<YOUR_GOOGLE_API_TOKEN>
 
 If you run it with pycharm, you should make sure you set the environment variable accordingly.
 
+```bash
+poetry init
+poetry install
+ln -s $(poetry env info --path) .venv
+```
 
 ### How to deploy to AWS lambda
 

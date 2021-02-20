@@ -8,5 +8,5 @@ def get_channel_id_by_video_id(service, video_id: str) -> Optional[str]:
     response = request.execute()
     if 'items' not in response:
         return None
-    channel_id = response['items'][0]['snippet']['channelId']
-    return channel_id
+    if response['items']:
+        return response['items'][0]['snippet']['channelId']

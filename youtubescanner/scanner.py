@@ -32,6 +32,7 @@ class ChannelPageIterator:
     def __init__(self, query: ScanQuery):
         self.query: ScanQuery = query
         self.video_count: PositiveInt = PositiveInt(0)
+        self.items_left = None
 
         self.last_response = None
 
@@ -41,8 +42,12 @@ class ChannelPageIterator:
     def __next__(self) -> ChannelPage:
         if self._exceeds_limit() or not self._has_next_page_token():
             raise StopIteration
-        response = self.YOUTUBE.get_single_page(query=self.query,
-                                                page_token=self._get_next_page_token())
+        self.items_left = self.query.limit - self.video_count
+        response = self.YOUTUBE.get_single_page(
+            query=self.query,
+            page_token=self._get_next_page_token(),
+            max_results=min(self.items_left, PositiveInt(50))
+        )
         self._update_video_ids(response)
         self._update_last_response(response)
         return ChannelPage(self.last_response)
@@ -52,9 +57,7 @@ class ChannelPageIterator:
         self.video_count += len(video_ids)
 
     def _get_video_ids(self, response) -> List[str]:
-        page_limit = self.query.limit - self.video_count
-        video_ids = [item['id']['videoId'] for item in response['items']][:page_limit]
-        return video_ids
+        return [item['id']['videoId'] for item in response['items']]
 
     def _exceeds_limit(self) -> bool:
         return self.query.limit is not None and self.video_count >= self.query.limit

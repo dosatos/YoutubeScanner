@@ -10,11 +10,13 @@ from youtubescanner.youtube_client import YoutubeClient
 
 def get_videos(channel_id):
     query: scanner.ScanQuery = scanner.ScanQuery(
-        channel_id=get_channel_id_by_video_id(
-            YoutubeClient().api,
-            channel_id),
-        limit=PositiveInt(10),
-        published_after=rfs_3339_time.week_ago()
+        # channel_id=get_channel_id_by_video_id(
+        #     YoutubeClient().api,
+        #     channel_id
+        # ),
+        channel_id='UCcefcZRL2oaA_uBNeo5UOWg',
+        limit=PositiveInt(2),
+        published_after=rfs_3339_time.yesterday()
     )
     pprint(scanner.get_videos(query=query))
 
@@ -25,7 +27,9 @@ def main():
     # channel_id = get_channel_id_by_video_id(client.api, '1SD18klTuYk')
     # print(channel_id)
 
-    get_videos(channel_id='1SD18klTuYk')
+    get_videos(
+        channel_id='UCcefcZRL2oaA_uBNeo5UOWg'
+    )
 
 
 if __name__ == '__main__':

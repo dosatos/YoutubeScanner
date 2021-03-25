@@ -2,17 +2,13 @@ from datetime import date, timedelta, datetime
 
 
 def now():
-    today = datetime.now()
-    return today.strftime('%Y-%m-%dT%H:%M:%SZ')
-
-
-def yesterday():
-    return days_ago(1)
+    right_now = datetime.now()
+    return right_now.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
 def days_ago(days: int):
-    yesterday = date.today() - timedelta(days=days)
-    return yesterday.strftime('%Y-%m-%dT%H:%M:%SZ')
+    given_days_ago = datetime.now() - timedelta(days=days)
+    return given_days_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
 def week_ago():
@@ -20,5 +16,5 @@ def week_ago():
 
 
 def weeks_ago(weeks_count: int = 1):
-    yesterday = date.today() - timedelta(days=7 * weeks_count)
-    return yesterday.strftime('%Y-%m-%dT%H:%M:%SZ')
+    given_days_ago = datetime.now() - timedelta(days=7 * weeks_count)
+    return given_days_ago.strftime('%Y-%m-%dT%H:%M:%SZ')

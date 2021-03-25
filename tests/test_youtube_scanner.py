@@ -1,6 +1,6 @@
 from pydantic import PositiveInt
 
-import scanner
+import youtubescanner.scanner
 
 
 def test_main():

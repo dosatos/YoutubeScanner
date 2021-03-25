@@ -12,7 +12,7 @@ from youtubescanner.youtube_client import YoutubeClient
 class ScanQuery(BaseModel):
     channel_id: str
     limit: PositiveInt = 1
-    published_after: str = rfs_3339_time.yesterday()
+    published_after: str = rfs_3339_time.days_ago(1)
 
 
 class ChannelPage:

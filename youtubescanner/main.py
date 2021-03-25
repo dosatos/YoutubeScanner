@@ -16,7 +16,7 @@ def get_videos(channel_id):
         # ),
         channel_id='UCcefcZRL2oaA_uBNeo5UOWg',
         limit=PositiveInt(2),
-        published_after=rfs_3339_time.yesterday()
+        published_after=rfs_3339_time.days_ago(1)
     )
     pprint(scanner.get_videos(query=query))
 

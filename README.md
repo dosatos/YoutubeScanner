@@ -13,7 +13,7 @@ ln -s $(poetry env info --path) .venv
 
 ### How to deploy to AWS lambda
 
-docs: https://docs.aws.amazon.com/lambda/latest/dg/python-package.html
+Docs: https://docs.aws.amazon.com/lambda/latest/dg/python-package.html
 
 ```
 cd YoutubeScanner
